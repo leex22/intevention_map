@@ -1,0 +1,513 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light only">
+<title>Intervenções 2027 – Igrejas por estado e PF</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root { color-scheme: light; --ink:#16233F; --muted:#5A6885; --soft:#7A87A3; --bg:#F3F5F9; --line:#E1E6F0; --gold:#F2C14E; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--ink); }
+  .wrap { max-width: 1600px; margin: 0 auto; padding: 48px clamp(16px, 4vw, 64px) 40px; }
+
+  /* Cabeçalho */
+  .top { display: flex; justify-content: space-between; align-items: flex-end; gap: 32px; flex-wrap: wrap;
+    background: var(--ink); color: #fff; border-radius: 28px; padding: clamp(28px, 4vw, 44px) clamp(24px, 4vw, 52px);
+    position: relative; overflow: hidden; }
+  .top::before { content: ""; position: absolute; inset: 0; opacity: .09;
+    background-image: linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px);
+    background-size: 32px 32px; }
+  .top > * { position: relative; }
+  .eyebrow { font-size: 18px; color: #9FB2D9; font-weight: 500; margin-bottom: 10px; }
+  h1 { font-weight: 800; font-size: clamp(36px, 5vw, 64px); letter-spacing: -1.5px; line-height: 1.02; }
+  .sub { margin-top: 16px; font-size: clamp(16px, 1.6vw, 22px); color: #C9D4EC; }
+  .trainer { display: flex; width: fit-content; align-items: center; gap: 14px; margin-top: 24px; background: #fff; color: var(--ink);
+    padding: 12px 22px 12px 12px; border-radius: 999px; font-size: 21px; font-weight: 600; }
+  .av { width: 44px; height: 44px; border-radius: 50%; background: var(--gold); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 17px; flex: none; }
+  .trtxt { display: flex; flex-direction: column; }
+  .trainer small { display: block; font-size: 13px; color: #6B7A99; font-weight: 500; }
+  .big { text-align: right; margin-left: auto; }
+  .big b { font-size: clamp(100px, 12vw, 170px); font-weight: 900; line-height: .85; letter-spacing: -6px; color: var(--gold); }
+  .big div { font-size: 22px; color: #C9D4EC; margin-top: 10px; }
+
+  /* Filtros */
+  .filters { margin-top: 26px; background: #fff; border-radius: 22px; padding: 20px 24px; box-shadow: 0 1px 0 var(--line);
+    display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)) auto; gap: 14px; align-items: end; }
+  @media (max-width: 1100px) { .filters { grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); } }
+  .filters label { display: block; font-size: 13px; font-weight: 700; color: var(--muted); margin-bottom: 6px; letter-spacing: .2px; }
+  .filters select, .filters option { color-scheme: light; }
+  .combo { position: relative; }
+  .combo-list { position: absolute; top: calc(100% + 8px); left: 0; min-width: 100%; width: max-content; max-width: 340px; max-height: 340px; overflow-y: auto;
+    list-style: none; background: #FFFFFF; border: 2px solid var(--gold); border-radius: 16px; padding: 6px;
+    box-shadow: 0 16px 36px rgba(22, 35, 63, .18); z-index: 50; color-scheme: light; }
+  .combo-list li { padding: 9px 12px; border-radius: 10px; cursor: pointer; color: #16233F; }
+  .combo-list li b { display: block; font-size: 15px; font-weight: 800; letter-spacing: .3px; }
+  .combo-list li span { display: block; font-size: 12.5px; font-weight: 500; color: #4A5878; margin-top: 2px; }
+  .combo-list li.act, .combo-list li:hover { background: #FFF6DC; }
+  .combo-list li.sel { background: #FDE9B0; }
+  .combo-list li.todas b { font-weight: 700; }
+  .combo-list li.vazio { cursor: default; color: #5A6885; font-size: 14px; }
+  .combo-list li.vazio:hover { background: none; }
+  .combo-list mark { background: #F2C14E; color: #16233F; border-radius: 3px; padding: 0 1px; }
+  .filters select { width: 100%; appearance: none; font: inherit; font-size: 15px; font-weight: 600; color: var(--ink);
+    background: var(--bg) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235A6885' stroke-width='2' fill='none'/%3E%3C/svg%3E") no-repeat right 14px center;
+    border: 2px solid transparent; border-radius: 12px; padding: 11px 38px 11px 14px; cursor: pointer; }
+  .filters select:focus, .filters input:focus { outline: none; border-color: #3460C9; }
+  .filters input { width: 100%; font: inherit; font-size: 15px; font-weight: 600; color: #16233F; background-color: #F3F5F9;
+    color-scheme: light; -webkit-appearance: none; appearance: none;
+    border: 2px solid transparent; border-radius: 12px; padding: 11px 14px; text-transform: uppercase; }
+  .filters input::placeholder { color: #16233F; opacity: 1; text-transform: none; font-weight: 600; font-size: 14px; }
+  .filters input.on { background-color: #FFF6DC; border-color: var(--gold); }
+  .filters select.on { background-color: #FFF6DC; border-color: var(--gold); }
+  .clear { font: inherit; font-size: 15px; font-weight: 700; color: #fff; background: var(--ink); border: 0; border-radius: 12px;
+    padding: 13px 18px; cursor: pointer; }
+  .clear:disabled { opacity: .35; cursor: default; }
+  .btns { display: flex; gap: 10px; }
+  .btns button { flex: 1; white-space: nowrap; }
+  .export { font: inherit; font-size: 15px; font-weight: 800; color: var(--ink); background: var(--gold); border: 0; border-radius: 12px;
+    padding: 13px 18px; cursor: pointer; white-space: nowrap; }
+  .export:disabled { opacity: .6; cursor: wait; }
+  body.exporting .filters { display: none; }
+
+  /* Barras */
+  .section { margin-top: 40px; }
+  .lbl { display: flex; justify-content: space-between; font-size: 16px; color: var(--muted); margin-bottom: 14px; font-weight: 500; }
+  .bar { display: flex; gap: 4px; height: 22px; border-radius: 999px; overflow: hidden; }
+  .seg { min-width: 10px; }
+  .legend { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; margin-top: 16px; }
+  .leg { background: #fff; border-radius: 16px; padding: 14px 16px; box-shadow: 0 1px 0 var(--line);
+    display: flex; align-items: center; gap: 12px; border: 2px solid transparent; cursor: pointer; font: inherit; color: inherit; text-align: left; }
+  .leg:hover { border-color: var(--gold); }
+  .leg i { width: 14px; height: 14px; border-radius: 50%; flex: none; }
+  .leg span { flex: 1; font-weight: 700; font-size: 16px; }
+  .leg span small { display: block; font-weight: 600; font-size: 12.5px; color: var(--soft); margin-top: 2px; }
+  .leg b { font-size: 28px; font-weight: 900; }
+
+  /* Intervenções */
+  .ints { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 14px; }
+  .int { background: #fff; border: 2px solid transparent; border-radius: 16px; padding: 14px 16px; cursor: pointer; text-align: left; font: inherit; color: inherit;
+    display: flex; justify-content: space-between; align-items: center; gap: 12px; box-shadow: 0 1px 0 var(--line); }
+  .int:hover { border-color: var(--gold); }
+  .int span { font-weight: 700; font-size: 15px; line-height: 1.25; }
+  .int small { display: block; font-weight: 500; font-size: 12px; color: var(--soft); margin-top: 3px; }
+  .int b { font-size: 28px; font-weight: 900; }
+
+  /* Cartões de estado */
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(310px, 1fr)); gap: 24px; align-items: start; margin-top: 40px; }
+  .col { background: #fff; border-radius: 22px; padding: 26px 24px; box-shadow: 0 1px 0 var(--line); }
+  .colh { display: flex; gap: 10px; justify-content: space-between; align-items: baseline; border-bottom: 4px solid; padding-bottom: 12px; }
+  .st { font-size: 27px; font-weight: 800; letter-spacing: -.5px; }
+  .stn { font-size: 44px; font-weight: 900; line-height: 1; white-space: nowrap; }
+  .stn small { font-size: 15px; font-weight: 600; margin-left: 6px; letter-spacing: 0; }
+  .pct { font-size: 14px; font-weight: 600; margin: 12px 0 6px; }
+  .pf { padding: 14px 0; border-bottom: 1px dashed var(--line); }
+  .pf:last-child { border-bottom: 0; padding-bottom: 0; }
+  .pfh { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 9px; }
+  .pfn { font-size: 17px; font-weight: 700; }
+  .pfc { font-size: 18px; font-weight: 800; }
+  .chips { display: flex; flex-wrap: wrap; gap: 7px; }
+  .chip { font-size: 13.5px; font-weight: 700; padding: 5px 11px; border-radius: 8px; letter-spacing: .3px; border: 0; font-family: inherit; }
+  button.chip { cursor: pointer; }
+  button.chip:hover { filter: brightness(.95); }
+  .chip sup { font-size: 10px; margin-left: 3px; }
+  .tags { margin-top: 8px; font-size: 12.5px; color: var(--soft); line-height: 1.45; }
+
+  .empty { margin-top: 30px; background: #fff; border-radius: 22px; padding: 40px; text-align: center; color: var(--muted); font-size: 17px; }
+  .foot { margin-top: 26px; font-size: 14px; color: var(--soft); display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div>
+      <div class="eyebrow" id="eyebrow">Intervenção 2027</div>
+      <h1 id="title">Intervenções 2027</h1>
+      <div class="sub">Igrejas por estado e por facilitador(a) de parceria (PF)</div>
+      <div class="trainer"><div class="av" id="av">–</div><div class="trtxt"><small id="trLabel">Treinador(a)</small><span id="trName">–</span></div></div>
+    </div>
+    <div class="big"><b id="total">0</b><div id="totalLbl">igrejas</div></div>
+  </header>
+
+  <section class="filters" aria-label="Filtros">
+    <div><label for="fInt">Intervenção</label><select id="fInt"></select></div>
+    <div><label for="fTr">Treinador(a)</label><select id="fTr"></select></div>
+    <div><label for="fUf">Estado</label><select id="fUf"></select></div>
+    <div><label for="fPf">PF</label><select id="fPf"></select></div>
+    <div><label for="fCh">FCP</label><div class="combo"><input id="fCh" type="text" role="combobox" aria-expanded="false" aria-controls="chList" aria-autocomplete="list" placeholder="Digite o BR" autocomplete="off" spellcheck="false"><ul id="chList" class="combo-list" role="listbox" hidden></ul></div></div>
+    <div class="btns"><button class="clear" id="clear">Limpar filtros</button><button class="export" id="export" title="Baixar uma imagem do que está filtrado">Exportar</button></div>
+  </section>
+
+  <section class="section" id="intSection">
+    <div class="lbl"><span>Distribuição por intervenção</span><span id="intLbl"></span></div>
+    <div class="ints" id="ints"></div>
+  </section>
+
+  <section class="section">
+    <div class="lbl"><span>Distribuição por estado</span><span id="barLbl"></span></div>
+    <div class="bar" id="bar"></div>
+    <div class="legend" id="legend"></div>
+  </section>
+
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty" hidden>Nenhuma igreja encontrada com esses filtros.</div>
+
+  <footer class="foot">
+    <span>Fonte: Planejamento de Intervenções PCA 2027</span>
+    <span id="footStates"></span>
+  </footer>
+</div>
+
+<script>
+/* ============================================================
+   DADOS
+   Cada linha: [intervenção, estado, PF, códigos]
+   - códigos: lista de códigos BR, ou um número quando a tabela
+     dinâmica estava recolhida (quantidade de igrejas sem código).
+   Para atualizar, basta editar ou acrescentar linhas aqui.
+   ============================================================ */
+const INTERVENCOES = {
+  "Cálculo com Confiança":         { sub: "Currículo de numeracia", treinador: "Paula Soares" },
+  "Treinamento Informado sobre Traumas": { sub: "", treinador: "Paula Soares" },
+  "Pequenos Leitores":             { sub: "", treinador: "Lygianne Brito" },
+  "Descobertas":                   { sub: "", treinador: "Allan Kardec" },
+  "Cresça com Inteligência": { sub: "Currículo GrowUp Smart", treinador: "Treinador externo" },
+  "Decola":                        { sub: "", treinador: "Lygianne Brito" },
+  "Alcance à Vida":                { sub: "", treinador: "Lygianne Brito" },
+  "Yes: Guia de Carreiras":        { sub: "", treinador: "Lygianne Brito" },
+  "A Jornada de um Germe":         { sub: "Currículo de lavagem das mãos", treinador: "Lygianne Brito" },
+  "Intervenção a definir":         { sub: "", treinador: "A definir" }
+};
+
+const TREINADORES = {
+  "Paula Soares":      { label: "Treinadora", ini: "PS" },
+  "Lygianne Brito":    { label: "Treinadora", ini: "LB" },
+  "Allan Kardec":      { label: "Treinador",  ini: "AK" },
+  "Treinador externo": { label: "Responsável pelo treinamento", ini: "TE" },
+  "A definir":         { label: "Treinador(a)", ini: "?" }
+};
+
+const ESTADOS = {
+  "Ceará":      { c: "#E39B2D", bg: "#FDF3E2" },
+  "Maranhão":   { c: "#23876F", bg: "#E3F3EE" },
+  "Paraíba":    { c: "#3460C9", bg: "#E6EDFB" },
+  "Pernambuco": { c: "#C2405A", bg: "#FBE8EC" },
+  "Piauí":      { c: "#7A4FC2", bg: "#EFE8FA" },
+  "Alagoas":    { c: "#0F8FA8", bg: "#E1F3F6" }
+};
+
+const LINHAS = [
+  // Cálculo com Confiança
+  ["Cálculo com Confiança", "Ceará", "Fabrício Abreu Gabriel", ["BR0563"]],
+  ["Cálculo com Confiança", "Maranhão", "Adriana Oliveira", ["BR0661"]],
+  ["Cálculo com Confiança", "Maranhão", "Alinne Carvalho", ["BR0468", "BR0606"]],
+  ["Cálculo com Confiança", "Maranhão", "Eutimidio Gomes", ["BR0521"]],
+  ["Cálculo com Confiança", "Paraíba", "Beatriz Dantas Abrantes", ["BR0574"]],
+  ["Cálculo com Confiança", "Paraíba", "Danielle Vasconcelos", ["BR0463", "BR0513"]],
+  ["Cálculo com Confiança", "Paraíba", "Fernanda Genesio", ["BR0614"]],
+  ["Cálculo com Confiança", "Pernambuco", "Danielle Vasconcelos", ["BR0616"]],
+  ["Cálculo com Confiança", "Pernambuco", "Elias Silva", ["BR0549"]],
+  ["Cálculo com Confiança", "Pernambuco", "Fernanda Genesio", ["BR0569", "BR0613"]],
+  ["Cálculo com Confiança", "Pernambuco", "Roberta Monteiro", ["BR0655", "BR0656"]],
+
+  // Treinamento Informado sobre Traumas
+  ["Treinamento Informado sobre Traumas", "Maranhão", "Bruno Carvalho", ["BR0628", "BR0630", "BR0642", "BR0670"]],
+  ["Treinamento Informado sobre Traumas", "Maranhão", "Milka Ferreira", ["BR0489", "BR0525", "BR0531", "BR0535"]],
+  ["Treinamento Informado sobre Traumas", "Pernambuco", "Elias Silva", ["BR0578"]],
+  ["Treinamento Informado sobre Traumas", "Pernambuco", "Marcela Nascimento", ["BR0343", "BR0436", "BR0587"]],
+  ["Treinamento Informado sobre Traumas", "Alagoas", "Roberta Monteiro", ["BR0640"]],
+
+  // Pequenos Leitores
+  ["Pequenos Leitores", "Maranhão", "Adriana Oliveira", ["BR0505"]],
+  ["Pequenos Leitores", "Maranhão", "Alinne Carvalho", ["BR0469", "BR0580"]],
+  ["Pequenos Leitores", "Maranhão", "Bruno Carvalho", ["BR0519"]],
+  ["Pequenos Leitores", "Maranhão", "Emilio Sampaio", ["BR0509", "BR0511", "BR0650"]],
+  ["Pequenos Leitores", "Maranhão", "Eutimidio Gomes", ["BR0499", "BR0629"]],
+
+  // Descobertas
+  ["Descobertas", "Ceará", "Pauliane Brandão", ["BR0547"]],
+  ["Descobertas", "Paraíba", "Danielle Vasconcelos", ["BR0617"]],
+
+  // Cresça com Inteligência
+  ["Cresça com Inteligência", "Ceará", "Pauliane Brandão", ["BR0453", "BR0633"]],
+  ["Cresça com Inteligência", "Maranhão", "Adriana Oliveira", ["BR0506"]],
+  ["Cresça com Inteligência", "Maranhão", "Bruno Carvalho", ["BR0524"]],
+  ["Cresça com Inteligência", "Maranhão", "Emilio Sampaio", ["BR0530"]],
+  ["Cresça com Inteligência", "Maranhão", "Eutimidio Gomes", ["BR0523"]],
+  ["Cresça com Inteligência", "Maranhão", "Irailde Sousa", ["BR0474", "BR0475"]],
+  ["Cresça com Inteligência", "Maranhão", "Josiane Veras", ["BR0539"]],
+  ["Cresça com Inteligência", "Maranhão", "Sandreia Silva", ["BR0482", "BR0483", "BR0526", "BR0529"]],
+  ["Cresça com Inteligência", "Paraíba", "Danielle Vasconcelos", ["BR0512", "BR0562"]],
+  ["Cresça com Inteligência", "Paraíba", "Fernanda Genesio", ["BR0572"]],
+  ["Cresça com Inteligência", "Pernambuco", "Elias Silva", ["BR0575"]],
+  ["Cresça com Inteligência", "Pernambuco", "Roberta Monteiro", ["BR0125"]],
+  ["Cresça com Inteligência", "Piauí", "Josiane Veras", ["BR0555", "BR0591"]],
+
+  // Decola
+  ["Decola", "Ceará", "Fabrício Abreu Gabriel", ["BR0560"]],
+  ["Decola", "Ceará", "Marcos Antonio Lima Acacio", ["BR0329"]],
+  ["Decola", "Ceará", "Pauliane Brandão", ["BR0231", "BR0458"]],
+  ["Decola", "Maranhão", "Eutimidio Gomes", ["BR0538"]],
+  ["Decola", "Pernambuco", "Elias Silva", ["BR0541", "BR0579"]],
+
+  // Alcance à Vida
+  ["Alcance à Vida", "Ceará", "Fabrício Abreu Gabriel", ["BR0448", "BR0552", "BR0557"]],
+  ["Alcance à Vida", "Ceará", "Marcos Antonio Lima Acacio", ["BR0167", "BR0182", "BR0219", "BR0323"]],
+  ["Alcance à Vida", "Ceará", "Pauliane Brandão", ["BR0452"]],
+  ["Alcance à Vida", "Paraíba", "Danielle Vasconcelos", ["BR0534"]],
+  ["Alcance à Vida", "Pernambuco", "Marcela Nascimento", ["BR0333"]],
+
+  // Yes: Guia de Carreiras
+  ["Yes: Guia de Carreiras", "Ceará", "Marcos Antonio Lima Acacio", ["BR0425", "BR0457"]],
+  ["Yes: Guia de Carreiras", "Ceará", "Pauliane Brandão", ["BR0322", "BR0545", "BR0597"]],
+  ["Yes: Guia de Carreiras", "Maranhão", "Adriana Oliveira", ["BR0507", "BR0508", "BR0510"]],
+  ["Yes: Guia de Carreiras", "Maranhão", "Irailde Sousa", ["BR0476", "BR0481"]],
+  ["Yes: Guia de Carreiras", "Paraíba", "Danielle Vasconcelos", ["BR0533"]],
+  ["Yes: Guia de Carreiras", "Paraíba", "Fernanda Genesio", ["BR0570"]],
+  ["Yes: Guia de Carreiras", "Pernambuco", "Elias Silva", ["BR0540"]],
+  ["Yes: Guia de Carreiras", "Piauí", "Josiane Veras", ["BR0568", "BR0573"]],
+
+  // A Jornada de um Germe
+  ["A Jornada de um Germe", "Maranhão", "Eutimidio Gomes", ["BR0498"]],
+
+  // Intervenção a definir (igrejas novas no planejamento, sem intervenção informada)
+  ["Intervenção a definir", "Paraíba", "Elias Silva", ["BR0619"]],
+  ["Intervenção a definir", "Paraíba", "Fernanda Genesio", ["BR0623"]],
+  ["Intervenção a definir", "Pernambuco", "Elias Silva", ["BR0543"]],
+  ["Intervenção a definir", "Pernambuco", "Fernanda Genesio", ["BR0605"]],
+  ["Intervenção a definir", "Pernambuco", "Marcela Nascimento", ["BR0183", "BR0403", "BR0461"]],
+  ["Intervenção a definir", "Pernambuco", "Roberta Monteiro", ["BR0214", "BR0407"]],
+  ["Intervenção a definir", "Piauí", "Josiane Veras", ["BR0567"]]
+];
+
+/* ============================================================
+   Registros: uma linha por igreja (ou por bloco sem código)
+   ============================================================ */
+const REG = [];
+for (const [int, uf, pf, cod] of LINHAS) {
+  const tr = INTERVENCOES[int].treinador;
+  if (Array.isArray(cod)) cod.forEach(c => REG.push({ int, tr, uf, pf, cod: c, n: 1 }));
+  else REG.push({ int, tr, uf, pf, cod: null, n: cod });
+}
+
+const $ = id => document.getElementById(id);
+const F = { int: $("fInt"), tr: $("fTr"), uf: $("fUf"), pf: $("fPf"), cod: $("fCh") };
+const ALL = "";
+let codSel = "";                                   // FCP selecionada (código BR)
+const getV = k => k === "cod" ? codSel : F[k].value;
+const CODIGOS = new Set(REG.filter(r => r.cod).map(r => r.cod));
+const plural = (n, s, p) => n === 1 ? s : p;
+const ordem = Object.keys(INTERVENCOES);
+const esc = s => String(s).replace(/[&<>"]/g, ch => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;" }[ch]));
+
+function filtrar(ignorar) {
+  return REG.filter(r => Object.keys(F).every(k => {
+    if (k === ignorar) return true;
+    const v = getV(k);
+    return v === ALL || r[k] === v;
+  }));
+}
+
+function preencher(key, labelTodos, ordenar) {
+  const sel = F[key], atual = sel.value;
+  const base = filtrar(key);
+  const cont = new Map();
+  base.forEach(r => { if (r[key] != null) cont.set(r[key], (cont.get(r[key]) || 0) + r.n); });
+  let vals = [...cont.keys()];
+  vals = ordenar ? vals.sort(ordenar) : vals.sort((a, b) => a.localeCompare(b, "pt-BR"));
+  if (atual !== ALL && !cont.has(atual)) vals.unshift(atual);
+  sel.innerHTML = `<option value="">${labelTodos}</option>` +
+    vals.map(v => `<option value="${esc(v)}">${esc(v)} (${cont.get(v) || 0})</option>`).join("");
+  sel.value = atual;
+  sel.classList.toggle("on", sel.value !== ALL);
+}
+
+let CH_OPCOES = [];
+function preencherCod() {
+  const info = new Map();
+  filtrar("cod").forEach(r => { if (r.cod) info.set(r.cod, `${r.pf} · ${r.uf}`); });
+  CH_OPCOES = [...info.keys()].sort().map(c => ({ cod: c, info: info.get(c) }));
+  if (document.activeElement !== F.cod) F.cod.value = codSel;
+  F.cod.classList.toggle("on", codSel !== ALL);
+  if (!$("chList").hidden) mostrarLista();
+}
+
+let ativo = -1;
+function opcoesVisiveis() {
+  const q = F.cod.value.trim().toUpperCase();
+  const termo = q === codSel ? "" : q;   // campo com a FCP já escolhida: mostra a lista toda
+  return { termo, itens: CH_OPCOES.filter(o => !termo || o.cod.includes(termo) || o.info.toUpperCase().includes(termo)) };
+}
+function destacar(txt, termo) {
+  if (!termo) return esc(txt);
+  const i = txt.toUpperCase().indexOf(termo);
+  return i < 0 ? esc(txt) : esc(txt.slice(0, i)) + "<mark>" + esc(txt.slice(i, i + termo.length)) + "</mark>" + esc(txt.slice(i + termo.length));
+}
+function mostrarLista() {
+  const { termo, itens } = opcoesVisiveis();
+  const ul = $("chList");
+  let html = codSel ? `<li class="todas" data-c=""><b>Todas as FCPs</b><span>Limpar este filtro</span></li>` : "";
+  html += itens.length
+    ? itens.map((o, i) => `<li role="option" data-c="${o.cod}" class="${o.cod === codSel ? "sel" : ""}${i === ativo ? " act" : ""}"><b>${destacar(o.cod, termo)}</b><span>${destacar(o.info, termo)}</span></li>`).join("")
+    : `<li class="vazio">Nenhuma FCP encontrada</li>`;
+  ul.innerHTML = html;
+  ul.hidden = false;
+  F.cod.setAttribute("aria-expanded", "true");
+  const act = ul.querySelector("li.act"); if (act) act.scrollIntoView({ block: "nearest" });
+}
+function fecharLista() {
+  $("chList").hidden = true; ativo = -1;
+  F.cod.setAttribute("aria-expanded", "false");
+}
+
+function escolherCod(v) {
+  codSel = v; F.cod.value = v; render();
+}
+
+function render() {
+  preencher("int", "Todas", (a, b) => ordem.indexOf(a) - ordem.indexOf(b));
+  preencher("tr", "Todos");
+  preencher("uf", "Todos");
+  preencher("pf", "Todos");
+  preencherCod();
+  $("clear").disabled = Object.keys(F).every(k => getV(k) === ALL);
+
+  const rows = filtrar();
+  const total = rows.reduce((s, r) => s + r.n, 0);
+  const ints = [...new Set(rows.map(r => r.int))].sort((a, b) => ordem.indexOf(a) - ordem.indexOf(b));
+  const trs = [...new Set(rows.map(r => r.tr))];
+  const ufs = Object.keys(ESTADOS).filter(u => rows.some(r => r.uf === u));
+
+  // Cabeçalho
+  if (ints.length === 1) {
+    const i = INTERVENCOES[ints[0]];
+    $("title").textContent = ints[0];
+    $("eyebrow").textContent = "Intervenção 2027" + (i.sub ? ", " + i.sub.charAt(0).toLowerCase() + i.sub.slice(1) : "");
+  } else {
+    $("title").textContent = "Intervenções 2027";
+    $("eyebrow").textContent = ints.length ? `${ints.length} intervenções` : "Intervenção 2027";
+  }
+  if (trs.length === 1) {
+    const t = TREINADORES[trs[0]];
+    $("av").textContent = t.ini; $("trLabel").textContent = t.label; $("trName").textContent = trs[0];
+  } else {
+    $("av").textContent = trs.length; $("trLabel").textContent = "Equipe de treinamento";
+    $("trName").textContent = `${trs.length} ${plural(trs.length, "treinador(a)", "treinadores")}`;
+  }
+  $("total").textContent = total;
+  $("totalLbl").textContent = ufs.length === 1
+    ? `${plural(total, "igreja", "igrejas")} em ${ufs[0]}`.replace("em Maranhão", "no Maranhão").replace("em Ceará", "no Ceará").replace("em Piauí", "no Piauí")
+    : `${plural(total, "igreja", "igrejas")} em ${ufs.length} estados`;
+  if (ints.length > 1) $("totalLbl").textContent += " (somando intervenções)";
+
+  // Intervenções
+  $("intSection").hidden = ints.length < 2;
+  $("intLbl").textContent = `${ints.length} intervenções`;
+  $("ints").innerHTML = ints.map(i => {
+    const n = rows.filter(r => r.int === i).reduce((s, r) => s + r.n, 0);
+    return `<button class="int" data-int="${esc(i)}"><span>${esc(i)}<small>${esc(INTERVENCOES[i].treinador)}</small></span><b>${n}</b></button>`;
+  }).join("");
+
+  // Barra de estados
+  $("barLbl").textContent = `${total} ${plural(total, "igreja", "igrejas")}`;
+  const porUf = ufs.map(u => [u, rows.filter(r => r.uf === u).reduce((s, r) => s + r.n, 0)]);
+  $("bar").innerHTML = porUf.map(([u, n]) =>
+    `<div class="seg" style="flex:${n};background:${ESTADOS[u].c}" title="${u}: ${n}"></div>`).join("");
+  $("legend").innerHTML = porUf.map(([u, n]) =>
+    `<button class="leg" data-uf="${u}"><i style="background:${ESTADOS[u].c}"></i><span>${u}<small>${Math.round(n / total * 100)}% do total</small></span><b style="color:${ESTADOS[u].c}">${n}</b></button>`).join("");
+
+  // Cartões
+  $("empty").hidden = rows.length > 0;
+  $("grid").innerHTML = ufs.map(u => {
+    const { c, bg } = ESTADOS[u];
+    const ur = rows.filter(r => r.uf === u);
+    const n = ur.reduce((s, r) => s + r.n, 0);
+    const pfs = [...new Set(ur.map(r => r.pf))];
+    const pfHtml = pfs.map(pf => {
+      const pr = ur.filter(r => r.pf === pf);
+      const k = pr.reduce((s, r) => s + r.n, 0);
+      const cods = new Map();
+      let semCod = 0;
+      pr.forEach(r => r.cod ? cods.set(r.cod, [...(cods.get(r.cod) || []), r.int]) : semCod += r.n);
+      const chips = [...cods.entries()].sort((a, b) => a[0].localeCompare(b[0])).map(([cod, ii]) =>
+        `<button class="chip" data-cod="${cod}" style="background:${bg};color:${c}" title="${esc(ii.join(", "))}">${cod}${ii.length > 1 ? `<sup>×${ii.length}</sup>` : ""}</button>`
+      ).join("") + (semCod ? `<span class="chip" style="background:${bg};color:${c}" title="Código não informado na tabela">${semCod} ${plural(semCod, "igreja", "igrejas")} sem código</span>` : "");
+      const pIntsArr = [...new Set(pr.map(r => r.int))];
+      const tags = ints.length > 1 ? `<div class="tags">${pIntsArr.map(esc).join(" · ")}</div>` : "";
+      return `<div class="pf"><div class="pfh"><span class="pfn">${esc(pf)}</span><span class="pfc" style="color:${c}">${k}</span></div><div class="chips">${chips}</div>${tags}</div>`;
+    }).join("");
+    return `<div class="col"><div class="colh" style="border-color:${c}"><div class="st">${u}</div>
+      <div class="stn" style="color:${c}">${n}<small>${plural(n, "igreja", "igrejas")}</small></div></div>
+      <div class="pct" style="color:${c}">${Math.round(n / total * 100)}% do total · ${pfs.length} ${plural(pfs.length, "PF", "PFs")}</div>${pfHtml}</div>`;
+  }).join("");
+
+  $("footStates").textContent = ufs.join(" · ");
+}
+
+["int", "tr", "uf", "pf"].forEach(k => F[k].addEventListener("change", render));
+$("clear").addEventListener("click", () => { ["int", "tr", "uf", "pf"].forEach(k => F[k].value = ALL); escolherCod(ALL); });
+
+// FCP: digitar e encontrar na lista
+F.cod.addEventListener("focus", () => { F.cod.select(); ativo = -1; mostrarLista(); });
+F.cod.addEventListener("click", () => { if ($("chList").hidden) mostrarLista(); });
+F.cod.addEventListener("input", () => {
+  const v = F.cod.value.trim().toUpperCase();
+  ativo = -1;
+  if (v === "" && codSel) { codSel = ALL; render(); }
+  else if (CODIGOS.has(v) && v !== codSel) { codSel = v; render(); }
+  mostrarLista();
+});
+F.cod.addEventListener("keydown", e => {
+  const { itens } = opcoesVisiveis();
+  if (e.key === "ArrowDown") { e.preventDefault(); ativo = Math.min(ativo + 1, itens.length - 1); mostrarLista(); }
+  else if (e.key === "ArrowUp") { e.preventDefault(); ativo = Math.max(ativo - 1, 0); mostrarLista(); }
+  else if (e.key === "Enter") {
+    e.preventDefault();
+    const escolha = itens[ativo] || (itens.length === 1 ? itens[0] : null);
+    if (escolha) { escolherCod(escolha.cod); fecharLista(); F.cod.blur(); }
+  }
+  else if (e.key === "Escape") { fecharLista(); F.cod.blur(); }
+});
+$("chList").addEventListener("mousedown", e => {
+  const li = e.target.closest("li[data-c]"); if (!li) return;
+  e.preventDefault();
+  escolherCod(li.dataset.c); fecharLista(); F.cod.blur();
+});
+F.cod.addEventListener("blur", () => { fecharLista(); F.cod.value = codSel; });
+$("ints").addEventListener("click", e => { const b = e.target.closest("[data-int]"); if (b) { F.int.value = b.dataset.int; render(); } });
+$("legend").addEventListener("click", e => { const b = e.target.closest("[data-uf]"); if (b) { F.uf.value = b.dataset.uf; render(); } });
+$("grid").addEventListener("click", e => { const b = e.target.closest("[data-cod]"); if (b) escolherCod(b.dataset.cod); });
+
+// Exportar imagem do que está filtrado
+$("export").addEventListener("click", async () => {
+  const btn = $("export");
+  if (typeof html2canvas === "undefined") { alert("Não foi possível carregar o exportador de imagem. Verifique a conexão com a internet."); return; }
+  btn.disabled = true; btn.textContent = "Gerando…";
+  document.body.classList.add("exporting");
+  try {
+    if (document.fonts && document.fonts.ready) await document.fonts.ready;
+    const canvas = await html2canvas(document.querySelector(".wrap"), { scale: 2, backgroundColor: "#F3F5F9", useCORS: true });
+    const partes = Object.keys(F).map(getV).filter(Boolean);
+    const nome = ("igrejas-2027" + (partes.length ? "-" + partes.join("-") : "-todas"))
+      .normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-zA-Z0-9]+/g, "-").replace(/-+$/,"").toLowerCase();
+    const a = document.createElement("a");
+    a.download = nome + ".png";
+    a.href = canvas.toDataURL("image/png");
+    document.body.appendChild(a); a.click(); a.remove();
+  } catch (err) {
+    console.error(err);
+    alert("Não foi possível gerar a imagem.");
+  } finally {
+    document.body.classList.remove("exporting");
+    btn.disabled = false; btn.textContent = "Exportar";
+  }
+});
+render();
+</script>
+</body>
+</html>
